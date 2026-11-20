@@ -1,6 +1,7 @@
-import { authenticated, entity, int, text, uuid } from '@microsoft/rayfin-core';
+import { authenticated, entity, int, role, text, uuid } from '@microsoft/rayfin-core';
 
 @entity()
+@role('anonymous', 'read')
 @authenticated(['read', 'create'])
 export class FlightRecord {
   @uuid() id!: string;
