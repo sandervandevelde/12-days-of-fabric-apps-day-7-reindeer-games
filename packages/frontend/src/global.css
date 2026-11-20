@@ -275,6 +275,13 @@ body,
   .text-button { @apply text-300 font-semibold underline underline-offset-4; color: var(--color-accent); }
   .gold-text { color: var(--game-gold); }
   .deer-float { animation: deer-float 2.8s ease-in-out infinite alternate; }
+  .trail-drift { animation: trail-drift 1.8s ease-out infinite; }
+  .santa-walk { animation: santa-walk 2s .18s linear both; }
+  .santa-boot { transform-box: fill-box; transform-origin: center top; animation: santa-step .56s .18s ease-in-out 3 alternate; }
+  .santa-boot-back { animation-direction: alternate-reverse; }
+  .cabin-door-open { transform-box: fill-box; transform-origin: left center; animation: cabin-door-open .35s ease-out both; }
+  .cabin-light { opacity: .46; }
+  .flight-art[data-flight-paused] :is(.deer-float, .trail-drift, .santa-walk, .santa-boot, .cabin-door-open) { animation-play-state: paused; }
   .confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
   .confetti i { position: absolute; top: -20px; width: 8px; height: 13px; background: var(--game-gold); border-radius: 2px; animation: confetti-drop 3s ease-in both; }
   .confetti i:nth-child(3n) { background: var(--game-lip); }
@@ -282,6 +289,22 @@ body,
 }
 
 @keyframes deer-float { from { transform: translateY(3px); } to { transform: translateY(-4px); } }
+@keyframes trail-drift {
+  0% { opacity: 0; transform: translateY(-14px) scale(.5); }
+  30% { opacity: .96; transform: translateY(0) scale(1.05); }
+  100% { opacity: 0; transform: translateY(35px) scale(.35); }
+}
+@keyframes santa-walk {
+  0% { opacity: 0; transform: translate(0, -6px) scale(.48); }
+  13% { opacity: 1; transform: translate(-8px, -2px) scale(.64); }
+  27% { transform: translate(-20px, 1px) scale(.8); }
+  45% { transform: translate(-33px, 8px) scale(.96); }
+  62% { transform: translate(-47px, 9px) scale(1); }
+  80% { transform: translate(-62px, 15px) scale(1.02); }
+  100% { transform: translate(-74px, 18px) scale(1.04); }
+}
+@keyframes santa-step { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(25deg); } }
+@keyframes cabin-door-open { to { transform: scaleX(.24) skewY(-12deg); } }
 @keyframes confetti-drop { from { transform: translateY(-15px) rotate(0); } to { transform: translate(60px, 105vh) rotate(520deg); } }
 
 @media (max-width: 850px) {
@@ -301,6 +324,9 @@ body,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .deer-float, .confetti i { animation: none; }
+  .deer-float, .confetti i, .trail-drift, .santa-walk, .santa-boot, .cabin-door-open { animation: none; }
+  .trail-drift { opacity: .65; }
+  .santa-walk { transform: translate(-74px, 18px) scale(1.04); }
+  .cabin-door-open { transform: scaleX(.24) skewY(-12deg); }
   .confetti { background: radial-gradient(ellipse at center, #edc97538, transparent 70%); }
 }

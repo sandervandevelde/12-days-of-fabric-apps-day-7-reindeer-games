@@ -43,6 +43,7 @@ function App() {
   const [board, setBoard] = useState<'loading' | 'ready' | 'error'>('loading');
   const [phase, setPhase] = useState<'menu' | 'playing' | 'paused' | 'finished'>('menu');
   const [flight, setFlight] = useState<Flight | null>(null);
+  const [santaOutside, setSantaOutside] = useState(false);
   const [muted, setMuted] = useState(false);
   const [soundError, setSoundError] = useState(false);
   const [recordCheck, setRecordCheck] = useState<'idle' | 'checking' | 'winner' | 'not-record' | 'error' | 'saved'>('idle');
@@ -55,6 +56,8 @@ function App() {
   const stage = useRef<HTMLElement>(null);
   const mounted = useRef(false);
   const boardRequest = useRef(0);
+  const knownBest = useRef<number | null>(null);
+  const santaAppeared = useRef(false);
   const submissionId = useRef<string | null>(null);
   const best = scores[0]?.score ?? 0;
 
@@ -63,6 +66,7 @@ function App() {
     try {
       const rows = await readScores();
       if (mounted.current && request === boardRequest.current) {
+        knownBest.current = rows[0]?.score ?? 0;
         setScores(rows);
         setBoard('ready');
       }
@@ -120,6 +124,8 @@ function App() {
 
   function launch() {
     keys.current.clear();
+    santaAppeared.current = false;
+    setSantaOutside(false);
     sim.current = newFlight();
     setFlight(sim.current);
     setAlias('');
@@ -155,6 +161,10 @@ function App() {
       }, dt);
       sim.current = next;
       setFlight(next);
+      if (!santaAppeared.current && knownBest.current !== null && isRecord(next.score, knownBest.current)) {
+        santaAppeared.current = true;
+        setSantaOutside(true);
+      }
       if (next.score !== previous.score) audio.current?.cue('hit');
       if (next.lives !== previous.lives) audio.current?.cue('miss');
       if (next.lives > 0) frame = requestAnimationFrame(loop);
@@ -242,7 +252,7 @@ function App() {
     <main className="game-grid">
       <div className="flight-column">
         <section className="flight-stage" ref={stage} tabIndex={-1} aria-label="Flight course">
-          <FlightScene flight={flight} active={phase === 'playing'} />
+          <FlightScene flight={flight} active={phase === 'playing'} santa={santaOutside && flight !== null} />
           <div className="stage-top">
             <div className="stage-tag"><Snowflake /> <span>CHRISTMAS EVE FLIGHT</span></div>
             <div className="stage-hud">
@@ -263,6 +273,7 @@ function App() {
             <span>PACE · {(flightSpeed(flight?.elapsed ?? 0) / .32).toFixed(1)}×</span>
             <span role="status">{flight?.flash ? flight.feedback === 'hit' ? '+1 · HOOP CLEARED' : 'HOOP MISSED' : ''}</span>
           </div>}
+          <p className="sr-only" role="status">{santaOutside && phase === 'playing' ? 'New high score! Santa stepped outside to watch.' : ''}</p>
           {phase === 'paused' && <div className="stage-overlay">
             <div className="result-card">
               <div className="result-mark"><Pause /></div>

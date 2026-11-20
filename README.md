@@ -2,7 +2,7 @@
 
 In the Fabricator preview, choose **Start flight** and use the arrow keys to steer Rudolph through the golden hoops. Each cleared hoop earns one point; each missed hoop costs one of three lives. The course speeds up as you fly. Press **Esc** to pause or resume, and use **Sound** to mute the music and cues.
 
-The opening screen shows the shared high scores for signed-in players. Beat the top score to celebrate and save your pilot alias. Scores are submitted by the browser for this casual arcade game, not verified by a competitive anti-cheat service.
+The opening screen shows the shared high scores for signed-in players. Follow Rudolph's sparkle trail from behind, and watch the cabin when you beat the top score: Santa steps out to watch while you're still flying. Finish the run to celebrate and save your pilot alias. Scores are submitted by the browser for this casual arcade game, not verified by a competitive anti-cheat service.
 
 ## About the app template
 

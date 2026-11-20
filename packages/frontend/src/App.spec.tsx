@@ -44,6 +44,34 @@ describe('Reindeer Games', () => {
     expect(screen.getByRole('button', { name: 'Start flight' })).toBeVisible();
   });
 
+  it('reveals Santa during the flight only after the saved high score is beaten', async () => {
+    mock.rows = [{ id: 'existing', alias: 'Dasher', score: 1 }];
+    vi.spyOn(Math, 'random').mockReturnValue(.5);
+    let frame: FrameRequestCallback | undefined;
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { frame = callback; return 1; });
+    vi.stubGlobal('cancelAnimationFrame', () => { frame = undefined; });
+    render(<App />);
+    await screen.findByText('Dasher');
+    fireEvent.click(screen.getByRole('button', { name: 'Start flight' }));
+    expect(screen.getByTestId('rear-view-reindeer')).toContainElement(screen.getByTestId('sparkle-trail'));
+    expect(screen.queryByTestId('cabin-santa')).not.toBeInTheDocument();
+
+    act(() => { for (let time = 0; time <= 3100; time += 25) frame?.(time); });
+    expect(screen.getByText('01', { selector: '.stat-label strong' })).toBeVisible();
+    expect(screen.queryByTestId('cabin-santa')).not.toBeInTheDocument();
+
+    act(() => { for (let time = 3125; time <= 5600; time += 25) frame?.(time); });
+    expect(screen.getByText('02', { selector: '.stat-label strong' })).toBeVisible();
+    expect(screen.getByTestId('cabin-santa')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Pause flight' })).toBeVisible();
+    expect(mock.create).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pause flight' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back to hangar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Start flight' }));
+    expect(screen.queryByTestId('cabin-santa')).not.toBeInTheDocument();
+  });
+
   it('scores the first hoop, ends after three misses, and saves a record alias', async () => {
     vi.spyOn(Math, 'random').mockReturnValue(.5);
     let frame: FrameRequestCallback | undefined;

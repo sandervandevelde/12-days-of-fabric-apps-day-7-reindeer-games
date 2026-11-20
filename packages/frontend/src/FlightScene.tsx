@@ -9,6 +9,15 @@ const trees = Array.from({ length: 36 }, (_, i) => ({
   y: 465 + hash(i + 98) * 95,
   scale: 0.49 + hash(i + 51) * 0.66,
 }));
+const glints = Array.from({ length: 19 }, (_, i) => ({
+  x: (hash(i + 360) - .5) * 112,
+  y: 29 + hash(i + 391) * 110,
+  size: 2 + hash(i + 410) * 4.5,
+  delay: `${-hash(i + 440) * 2}s`,
+  duration: `${1 + hash(i + 480) * 1.15}s`,
+}));
+const sparkle = 'M0-1Q.15-.15 1 0Q.15.15 0 1Q-.15.15-1 0Q-.15-.15 0-1Z';
+const antler = 'M13-34q10-9 12-24l8-20m-10 27q13-7 19-25l3-12M32-62q13 2 22-13m-29 15q-7-8-5-21';
 
 function Fir({ snow = false }: { snow?: boolean }) {
   return <>
@@ -19,30 +28,62 @@ function Fir({ snow = false }: { snow?: boolean }) {
 }
 
 function Deer({ x, y, scale, angle }: { x: number; y: number; scale: number; angle: number }) {
-  return <g transform={`translate(${x} ${y}) rotate(${angle}) scale(${scale})`}>
+  return <g data-testid="rear-view-reindeer" transform={`translate(${x} ${y}) rotate(${angle}) scale(${scale})`}>
+    <g className="sparkle-trail" data-testid="sparkle-trail">
+      {glints.map(({ x: sx, y: sy, size, delay, duration }, i) =>
+        <g key={i} transform={`translate(${sx} ${sy})`}>
+          <g className="trail-drift" style={{ animationDelay: delay, animationDuration: duration }}>
+            <path d={sparkle} transform={`scale(${size})`} fill={i % 3 === 0 ? '#fff7df' : '#ffd477'} />
+          </g>
+        </g>)}
+    </g>
     <g className="deer-float">
-      <path d="M-69 27Q-147 47-175 75m91-25q-65 25-97 55m74-28-39 19" stroke="#f8ce81" strokeWidth="2" opacity=".55" fill="none" strokeLinecap="round" />
-      {[[ -126, 54], [-158, 85], [-95, 78], [-115, 93], [-170, 61]].map(([sx, sy], i) =>
-        <path key={i} d="M0-5 1-1 5 0 1 1 0 5-1 1-5 0-1-1Z" fill="#ffdb8d" transform={`translate(${sx} ${sy})`} />)}
-      <path d="M-62 19Q-89 2-92 11q5 14 29 18" fill="#e1a16d" stroke="#432923" strokeWidth="2.5" />
-      <path d="M-40 29-65 51-84 56l-1 9 23-5 36-22m34-15L1 47l-16 13 4 8 21-16L26 27" fill="#a66039" stroke="#442925" strokeWidth="3" strokeLinejoin="round" />
-      <path d="M-72 27Q-62 7-35 6l42-3 15-27 30 10L45 9Q32 37 4 41l-36 4q-31 6-40-18Z" fill="url(#fur)" stroke="#4e2c23" strokeWidth="3" />
-      <path d="M-57 34q21 13 57-1 19-8 25-25-3 24-25 34l-34 4q-16 0-23-12Z" fill="#f2bc83" opacity=".8" />
-      <path d="M-47 38-62 64-78 76l3 8 21-12 24-34m50-12 26 10 19-9 5 7-25 15-33-10" fill="#ca8350" stroke="#4e2c23" strokeWidth="3" strokeLinejoin="round" />
-      <path d="m-78 76 8-5 5 8-10 5Zm-7-20 8-3 3 9-11 3Zm147-29 6-4 5 10-9 6Zm-77 33 7-6 5 8-8 6Z" fill="#432b29" />
-      <path d="M25-40 13-54 12-77m1 22L2-61l-5-13m16 10 7-13-2-13m26 45-3-15 7-15-4-17m0 22 17-9 4-15m-4 14 15-6" fill="none" stroke="#593729" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M25-40 13-54 12-77m1 22L2-61l-5-13m16 10 7-13-2-13m26 45-3-15 7-15-4-17m0 22 17-9 4-15m-4 14 15-6" fill="none" stroke="#d7a672" strokeWidth="3.3" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M28-31Q7-30 3-46q18-4 30 9m11 1q8-16 25-15-3 15-18 20" fill="#da9a61" stroke="#4e2c23" strokeWidth="2.5" />
-      <path d="M10-44q12 0 17 9-13-1-17-9" fill="#a25e52" />
-      <path d="M21-28q4-20 25-18 15 2 17 18l16 5q10 10-1 18l-27 5q-26-4-30-28Z" fill="url(#fur)" stroke="#4e2c23" strokeWidth="3" />
-      <path d="M53-20q12 2 24-1 11 8 1 15L56-4q-12-4-3-16Z" fill="#f7c991" />
-      <path d="M61-10q6 4 13 0" stroke="#834730" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-      <ellipse cx="46" cy="-27" rx="4" ry="5" fill="#2d211b" /><circle cx="47" cy="-29" r="1.4" fill="#fff5da" />
-      <circle cx="80" cy="-20" r="16" fill="url(#noseGlow)" /><ellipse cx="80" cy="-20" rx="8" ry="6" fill="#ed493e" stroke="#952f2b" strokeWidth="1.5" />
-      <ellipse cx="78" cy="-22" rx="3" ry="1.5" fill="#ffb5a2" />
-      <path d="M19-8q13 13 30 9l-3 9Q27 13 16 1l-9 11-23 3 7-10-10-3L5-2l14-6Z" fill="#c9443d" stroke="#7b302a" strokeWidth="2" />
-      <path d="m-12 4 14-2m-11 8 14-3m18-9q10 9 21 6" stroke="#f18462" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="39" cy="12" r="4.5" fill="#ffd47c" stroke="#985a31" strokeWidth="1.5" />
+      {[1, -1].map((side) => <g key={side} transform={`scale(${side} 1)`}>
+        <path d={antler} fill="none" stroke="#4e2c23" strokeWidth="8" strokeLinecap="round" />
+        <path d={antler} fill="none" stroke="#ddb27e" strokeWidth="4.5" strokeLinecap="round" />
+        <path d="M13-29q9-18 33-15-3 18-26 20Z" fill="#ce8b59" stroke="#4e2c23" strokeWidth="3" />
+        <path d="M23-30q5-9 16-10-4 8-16 10Z" fill="#f1bc94" />
+        <path d="M20 2q17-6 22 1l11 12-6 8-16-9-11 6Z" fill="#a96644" stroke="#4e2c23" strokeWidth="3" />
+        <path d="m43 23 10-8 5 7-10 8Z" fill="#402a28" />
+        <path d="M18 29q18-7 21 5l8 25-9 5-15-21-9 3Z" fill="#ba784c" stroke="#4e2c23" strokeWidth="3" />
+        <path d="m35 60 12-5 3 8-9 6Z" fill="#402a28" />
+      </g>)}
+      <path d="M-24-20Q-21-42 0-41q21-1 24 21L18 4h-36Z" fill="url(#fur)" stroke="#4e2c23" strokeWidth="3" />
+      <path d="M-10-31Q0-37 10-31" fill="none" stroke="#f2bf8c" strokeWidth="3" strokeLinecap="round" />
+      <path d="M-20-10Q0 0 20-10l2 10Q0 10-22 0Z" fill="#c9443d" stroke="#7b302a" strokeWidth="2.5" />
+      <path d="M-16 1Q0-5 16 1q20 13 19 29Q33 49 0 50t-35-20Q-36 14-16 1Z" fill="url(#fur)" stroke="#4e2c23" strokeWidth="3" />
+      <path d="M-28 25q8-14 28-14t28 14q-10-7-28-7t-28 7Z" fill="#f3bc87" opacity=".58" />
+      <path d="M-20 34q3-13 20-12 17-1 20 12Q18 47 0 47t-20-13Z" fill="#efb981" />
+      <path d="M-6 32Q-9 19 3 15q8 11 0 20-4 5-9-3Z" fill="#80513b" stroke="#5d392c" strokeWidth="2" />
+      <path d="M-17-6q-14 5-26 2l2 7-9 5q14 6 36-7" fill="#c9443d" stroke="#7b302a" strokeWidth="2.5" strokeLinejoin="round" />
+      <path d="M-45 7l7 1m16-12 4 4" stroke="#f18f6d" strokeWidth="2" strokeLinecap="round" />
+    </g>
+  </g>;
+}
+
+function Santa({ lookX, lookY }: { lookX: number; lookY: number }) {
+  const facing = lookX > 753 ? -1 : 1;
+  const tilt = Math.min(20, Math.max(3, (501 - lookY) * .045));
+  return <g transform="translate(827 518)">
+    <g className="santa-walk" data-testid="cabin-santa">
+      <ellipse cy="1" rx="17" ry="4" fill="#213a37" opacity=".28" />
+      <path className="santa-boot santa-boot-back" d="M8-17v13h9v5H3v-18Z" fill="#292626" />
+      <path className="santa-boot" d="M-4-17v13h-7v5H2v-18Z" fill="#292626" />
+      <path d="M-10-39q12-8 22 2 8 9 7 23h-35q-1-15 6-25Z" fill="#c34038" stroke="#692f2d" strokeWidth="2" />
+      <path d="M-15-24h33v5h-33Z" fill="#47312d" />
+      <path d="M-7-25h7v7h-7Z" fill="#ffcc75" /><path d="M-5-23h3v3h-3Z" fill="#47312d" />
+      <path d="M-15-15h34v5h-34Z" fill="#fff0d9" />
+      <path d="M10-33q7 2 6 10l-9 4-3-5 5-3-4-4Z" fill="#ec6e55" />
+      <circle cx="6" cy="-22" r="3.5" fill="#fff0d9" />
+      <g transform={`translate(-3 -43) scale(${facing} 1) rotate(${tilt})`}>
+        <path d="M-12 0q1-12 13-10 10 2 11 12L4 10-9 7Z" fill="#f1ad83" stroke="#692f2d" strokeWidth="1.5" />
+        <path d="M-13 1q9 5 15 0l8-3q4 7-2 14-7 8-17 1-6-4-4-12Z" fill="#fff3dc" />
+        <circle cx="-8" cy="-2" r="1.5" fill="#342821" />
+        <circle cx="-13" cy="1" r="3" fill="#efa281" />
+        <path d="M-14-6q1-14 16-14 12 0 14 11L7-13l3 7Z" fill="#ce483b" stroke="#692f2d" strokeWidth="1.5" />
+        <path d="M-14-6Q-3-10 11-6" fill="none" stroke="#fff3dc" strokeWidth="4.5" strokeLinecap="round" />
+        <circle cx="16" cy="-8" r="3.5" fill="#fff3dc" />
+      </g>
     </g>
   </g>;
 }
@@ -60,14 +101,13 @@ function Ring({ x, y, radius, opacity = 1 }: { x: number; y: number; radius: num
   </g>;
 }
 
-export function FlightScene({ flight, active }: { flight: Flight | null; active: boolean }) {
-  return <svg className="flight-art" viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none" aria-hidden="true">
+export function FlightScene({ flight, active, santa }: { flight: Flight | null; active: boolean; santa: boolean }) {
+  return <svg className="flight-art" data-flight-paused={flight && !active ? true : undefined} viewBox={`0 0 ${WIDTH} ${HEIGHT}`} preserveAspectRatio="none" aria-hidden="true">
     <defs>
       <linearGradient id="flightSky" x2="0" y2="1" gradientUnits="objectBoundingBox">
         <stop stopColor="#0c282d" /><stop offset=".52" stopColor="#2b5b59" /><stop offset="1" stopColor="#9cc8bd" />
       </linearGradient>
       <radialGradient id="moonGlow"><stop stopColor="#ffe7ad" stopOpacity=".33" /><stop offset="1" stopColor="#ffe7ad" stopOpacity="0" /></radialGradient>
-      <radialGradient id="noseGlow"><stop stopColor="#ff7153" stopOpacity=".8" /><stop offset="1" stopColor="#ff7153" stopOpacity="0" /></radialGradient>
       <linearGradient id="moonFace" x2=".3" y2="1"><stop stopColor="#fff4c9" /><stop offset="1" stopColor="#e9c78e" /></linearGradient>
       <linearGradient id="ringGold" x2="0" y2="1"><stop stopColor="#fff1b6" /><stop offset=".43" stopColor="#ffd480" /><stop offset="1" stopColor="#df8c37" /></linearGradient>
       <linearGradient id="fur" x2="0" y2="1"><stop stopColor="#f4bc81" /><stop offset=".52" stopColor="#d59356" /><stop offset="1" stopColor="#a6613a" /></linearGradient>
@@ -96,10 +136,15 @@ export function FlightScene({ flight, active }: { flight: Flight | null; active:
     </g>
     <g transform="translate(812 509)">
       <path d="M-37-19 0-52l43 28 1 33h-80Z" fill="#603d38" /><path d="M-43-19 0-57l49 33-10 6L0-44l-35 31Z" fill="#e2eee2" />
-      <path d="M7 9v-29h16V9m-48-28h18v15h-18Z" fill="#f5c46e" /><path d="M-16-19v15m-9-8h18" stroke="#7b5543" strokeWidth="2" />
+      <path d="M-25-19h18v15h-18Z" fill="#f5c46e" /><path d="M-16-19v15m-9-8h18" stroke="#7b5543" strokeWidth="2" />
+      <path d="M7 9v-29h16V9Z" fill={santa ? '#ffd580' : '#f5c46e'} />
+      {santa && <path className="cabin-light" d="M7 9h16l17 15h-53Z" fill="#ffdf91" />}
+      <path className={santa ? 'cabin-door-open' : undefined} d="M7 9v-29h16V9Z" fill="#734132" stroke="#4a3330" strokeWidth="1.5" />
+      {!santa && <circle cx="19" cy="-5" r="1.3" fill="#f5c46e" />}
       <path d="M25-43v-20h10v27" fill="#6d4940" /><path d="M24-64h13" stroke="#e2eee2" strokeWidth="3" />
       <path d="M-45 10q45-9 98 0" fill="none" stroke="#dcebe1" strokeWidth="6" strokeLinecap="round" />
     </g>
+    {santa && flight && <Santa lookX={flight.deer.x} lookY={flight.deer.y} />}
     <g color="#214a48">
       <g transform="translate(988 582) scale(1.6)"><Fir snow /></g>
       <g transform="translate(39 585) scale(1.55)"><Fir snow /></g>
@@ -112,12 +157,12 @@ export function FlightScene({ flight, active }: { flight: Flight | null; active:
       <Ring x={917} y={216} radius={26} opacity={.51} />
       <Ring x={870} y={235} radius={48} opacity={.75} />
       <Ring x={800} y={276} radius={106} />
-      <Deer x={710} y={303} scale={1.35} angle={-11} />
+      <Deer x={748} y={344} scale={1.48} angle={27} />
       <path d="M840 175q13-2 15-15 2 13 15 15-13 2-15 15-2-13-15-15Zm69 150q9-1 10-10 1 9 10 10-9 1-10 10-1-9-10-10Z" fill="#fff1af" />
     </> : <>
       {flight.hoops.slice().reverse().map((hoop) => <Ring key={hoop.id} {...project(hoop)} opacity={hoop.id === flight.hoops[0].id ? 1 : .50} />)}
       <circle cx={flight.deer.x} cy={flight.deer.y} r="23" fill="none" stroke="#fff0ba" strokeDasharray="2 8" strokeWidth="2" opacity=".85" />
-      <Deer x={flight.deer.x} y={flight.deer.y} scale={.42} angle={flight.bank} />
+      <Deer x={flight.deer.x} y={flight.deer.y} scale={.49} angle={flight.bank} />
     </>}
     {active && flight?.flash ? <path d="M0 0h1000v600H0z" fill="none" stroke={flight.feedback === 'hit' ? '#ffe29a' : '#e2685a'} strokeWidth="18" opacity={flight.flash * .48} /> : null}
   </svg>;
