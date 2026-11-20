@@ -34,6 +34,7 @@ import {
  * success. Keep a bound on any string field you add.
  */
 @entity()
+@role('anonymous', ['read', 'create'])
 @role('authenticated', '*', {
   policy: (claims, item) => claims.sub.eq(item.owner_id),
 })
