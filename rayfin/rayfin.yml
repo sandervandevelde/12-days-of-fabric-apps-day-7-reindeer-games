@@ -11,11 +11,14 @@ services:
       enabled: false
     allowedRedirectUris:
       - http://localhost:5173
+      - http://localhost:5174
+      - http://127.0.0.1:5174
+      - https://oval-flora-873fcba5f7-northeurope.webapp.fabricapps.net
   data:
     enabled: true
     path: packages/data
     buildCommand: npm run build
-    dialect: "mssql"
+    dialect: mssql
   staticHosting:
     enabled: true
     path: packages/frontend
@@ -25,3 +28,7 @@ services:
     assetAccess: protected
     embedded:
       only: false
+  storage:
+    enabled: false
+  functions:
+    enabled: false
