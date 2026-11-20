@@ -21,8 +21,8 @@
   "scripts": {
     "dev": "rayfin dev",
     "dev:frontend": "npm run -w @rayfin-app/frontend dev",
-    "build": "npm run -w @rayfin-app/shared build && npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build",
-    "build:fabric": "npm run -w @rayfin-app/shared build && npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build:fabric",
+    "build": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build",
+    "build:fabric": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build:fabric",
     "lint": "npm run -w @rayfin-app/frontend lint",
     "preview": "npm run -w @rayfin-app/frontend preview",
     "test": "npm run -w @rayfin-app/frontend test",
@@ -36,5 +36,13 @@
     "@microsoft/rayfin-cli": "~2.0.0",
     "@microsoft/rayfin-guide": "~2.0.0",
     "typescript": "~6.0.2"
-  }
+  },
+  "rayfinScriptBases": {
+    "build": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build",
+    "build:fabric": "npm run -w @rayfin-app/data build && npm run -w @rayfin-app/frontend build:fabric",
+    "typecheck": "tsc -b"
+  },
+  "rayfinPacks": [
+    "data-modeling"
+  ]
 }

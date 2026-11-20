@@ -8,42 +8,42 @@
    `useCssTheme()` and project them into a JS theme object (Vega's SVG output
    cannot resolve `var()` references). */
 @theme static {
-  --color-brand: #0f6cbd; /* bar/area fills, button-like brand surfaces */
-  --color-brand-foreground: #0f6cbd; /* line/point marks, branded text & emphasis */
-  --color-hover: #f5f5f5; /* row/cell hover surface in DataGrid + visuals */
+  --color-brand: #f6d692;
+  --color-brand-foreground: #f6d692;
+  --color-hover: #284840;
 }
 
 @theme {
   /* Color tokens — light theme
      Usage: bg-*, text-*, border-* (e.g. bg-primary text-primary-foreground)
      Each token has a -foreground pair for text on that surface. */
-  --color-background: #ffffff; /* page background */
-  --color-foreground: #242424; /* default text */
+  --color-background: #132d29;
+  --color-foreground: #fff3da;
 
-  --color-card: #ffffff; /* card surfaces */
-  --color-card-foreground: #242424;
+  --color-card: #193730;
+  --color-card-foreground: #fff3da;
 
-  --color-popover: #ffffff; /* popover/dropdown surfaces */
-  --color-popover-foreground: #242424;
+  --color-popover: #17352e;
+  --color-popover-foreground: #fff3da;
 
-  --color-primary: #0f6cbd; /* primary actions & buttons */
+  --color-primary: #b94539;
   --color-primary-foreground: #ffffff;
 
-  --color-secondary: #fafafa; /* secondary actions */
-  --color-secondary-foreground: #242424;
+  --color-secondary: #203d35;
+  --color-secondary-foreground: #fff3da;
 
-  --color-muted: #f0f0f0; /* subtle backgrounds */
-  --color-muted-foreground: #616161; /* subdued text */
+  --color-muted: #142d27;
+  --color-muted-foreground: #baccc1;
 
-  --color-accent: #f5f5f5; /* accent highlights */
-  --color-accent-foreground: #242424;
+  --color-accent: #f6d692;
+  --color-accent-foreground: #332721;
 
   --color-destructive: #c50f1f; /* errors & destructive actions */
   --color-destructive-foreground: #ffffff;
 
   --color-border: #e0e0e0; /* default border */
-  --color-input: #e0e0e0; /* input field borders */
-  --color-ring: #0f6cbd; /* focus rings */
+  --color-input: #6a8578;
+  --color-ring: #f6d692;
 
   --radius-none: 0;
   --radius-sm: 2px;
@@ -56,7 +56,7 @@
   --radius-5xl: 32px;
   --radius-6xl: 40px;
   --radius-full: 9999px;
-  --radius: 6px;
+  --radius: 16px;
 
   /* Spacing — 4px grid; use only these tokens, no interpolation. *-nudge = base − 2px.
      Usage: p-*, m-*, gap-* (e.g. p-400 gap-300) */
@@ -108,20 +108,11 @@
 
   /* Font Families
      Usage: font-* (e.g. font-heading, font-base) */
-  --font-heading:
-    'Segoe UI', 'Segoe UI Web (West European)',
-    /* headings, titles, display text */ -apple-system, BlinkMacSystemFont,
-    Roboto, 'Helvetica Neue', sans-serif;
-  --font-base:
-    'Segoe UI', 'Segoe UI Web (West European)',
-    /* body text, labels, UI controls */ -apple-system, BlinkMacSystemFont,
-    Roboto, 'Helvetica Neue', sans-serif;
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-base: 'Outfit', system-ui, sans-serif;
   --font-monospace:
     Consolas, 'Courier New', Courier, monospace; /* code, pre-formatted text */
-  --font-numeric:
-    Bahnschrift, 'Segoe UI',
-    /* KPI values, numeric displays */ 'Segoe UI Web (West European)',
-    -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif;
+  --font-numeric: 'Outfit', system-ui, sans-serif;
 
   /* Icon Sizes — 100-based scale
      Usage: icon-size-* custom utility (e.g. icon-size-200) */
@@ -142,37 +133,37 @@
 @layer base {
   .dark {
     /* Color tokens — dark theme */
-    --color-background: #292929;
-    --color-foreground: #ffffff;
+    --color-background: #0d211e;
+    --color-foreground: #fff3da;
 
-    --color-card: #292929;
-    --color-card-foreground: #ffffff;
+    --color-card: #132d27;
+    --color-card-foreground: #fff3da;
 
-    --color-popover: #292929;
-    --color-popover-foreground: #ffffff;
+    --color-popover: #132d27;
+    --color-popover-foreground: #fff3da;
 
-    --color-primary: #115ea3;
+    --color-primary: #b94539;
     --color-primary-foreground: #ffffff;
 
-    --color-secondary: #1f1f1f;
-    --color-secondary-foreground: #ffffff;
+    --color-secondary: #1b352e;
+    --color-secondary-foreground: #fff3da;
 
-    --color-muted: #141414;
-    --color-muted-foreground: #adadad;
+    --color-muted: #102721;
+    --color-muted-foreground: #afc4b8;
 
-    --color-accent: #3d3d3d;
-    --color-accent-foreground: #ffffff;
+    --color-accent: #f6d692;
+    --color-accent-foreground: #332721;
 
     --color-destructive: #c50f1f;
     --color-destructive-foreground: #ffffff;
 
-    --color-border: #525252;
-    --color-input: #525252;
-    --color-ring: #479ef5;
+    --color-border: #36534a;
+    --color-input: #6a8578;
+    --color-ring: #f6d692;
 
-    --color-brand: #115ea3;
-    --color-brand-foreground: #479ef5;
-    --color-hover: #3d3d3d;
+    --color-brand: #f6d692;
+    --color-brand-foreground: #f6d692;
+    --color-hover: #284840;
   }
 }
 
@@ -182,12 +173,134 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground font-base antialiased;
   }
+
+  button, input, select, textarea { font-family: inherit; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  :is(button, input):focus-visible { outline: 2px solid var(--color-ring); outline-offset: 3px; }
 }
 
 html,
 body,
 #root {
   height: 100%;
+}
+
+@layer components {
+  .game-shell {
+    --game-ink: #fff3da;
+    --game-gold: #f6d692;
+    --game-glass: #112b29e8;
+    --game-lip: #e77e69;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: var(--spacing-700) clamp(16px, 4vw, 56px) var(--spacing-400);
+  }
+  .club-header { @apply mb-600 flex items-center justify-between gap-300; }
+  .club-brand, .header-actions { @apply flex items-center gap-300; }
+  .club-mark { @apply rounded-2xl border border-border; width: 48px; height: 48px; overflow: hidden; }
+  .club-mark img { width: 100%; }
+  .club-brand p { @apply font-heading text-500 font-bold; line-height: 1.14; }
+  .club-brand span, .club-footer { @apply text-200 font-semibold text-muted-foreground; letter-spacing: .15em; }
+  .utility-button { @apply flex items-center justify-center gap-200 rounded-full border border-border bg-secondary px-300 text-300 font-semibold; min-height: 38px; }
+  .utility-button:hover, .stage-pause:hover { @apply bg-hover; }
+  .utility-button svg, .launch-button svg { @apply icon-size-200; flex: none; }
+  .theme-button { width: 38px; padding: 0; }
+  .game-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(256px, .34fr); gap: var(--spacing-500); align-items: start; }
+  .flight-column, .flight-sidebar { min-width: 0; }
+  .flight-sidebar { @apply grid gap-400; }
+  .flight-stage { position: relative; isolation: isolate; overflow: hidden; aspect-ratio: 1.62; min-height: 465px; border: 1px solid var(--color-border); border-radius: var(--radius-4xl); background: var(--game-glass); }
+  .flight-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .stage-top { @apply flex items-center justify-between gap-200; position: absolute; z-index: 1; inset: var(--spacing-400) var(--spacing-400) auto; color: var(--game-ink); pointer-events: none; }
+  .stage-tag, .stage-hud, .flight-status > span { @apply flex items-center gap-200 rounded-full px-300 text-200 font-semibold; background: var(--game-glass); border: 1px solid #e6d7ab4d; min-height: 34px; letter-spacing: .1em; }
+  .stage-tag svg, .stage-pause svg, .heart-group svg, .club-footer svg { @apply icon-size-200; }
+  .stage-tag svg, .stat-label strong { color: var(--game-gold); }
+  .stat-label strong { margin-inline-start: var(--spacing-100); font-family: var(--font-numeric); font-size: var(--text-400); font-variant-numeric: tabular-nums; }
+  .heart-group { @apply flex items-center gap-100; border-inline-start: 1px solid #e6d7ab4d; padding-inline-start: var(--spacing-200); }
+  .heart-full { fill: var(--game-lip); color: var(--game-lip); }
+  .heart-empty { color: #a4b9ad; }
+  .stage-pause { pointer-events: auto; @apply rounded-full p-100; }
+  .stage-intro { position: absolute; inset: 15% auto 13% 6%; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; color: var(--game-ink); max-width: 49%; }
+  .hero-kicker { @apply mb-300 flex items-center gap-200 text-200 font-bold; letter-spacing: .18em; color: var(--game-gold); }
+  .hero-kicker span { width: 23px; height: 1px; background: currentColor; flex: none; }
+  .stage-intro h1 { font-family: var(--font-heading); font-weight: 900; font-size: clamp(47px, 6.35vw, 102px); line-height: .96; letter-spacing: -.075em; text-shadow: 0 3px 20px #0e292c88; }
+  .stage-intro h1 em { font-weight: 700; color: var(--game-gold); }
+  .hero-copy { @apply mt-400 mb-500 text-400; color: var(--game-ink); max-width: 31ch; line-height: 1.4; }
+  .launch-button { @apply inline-flex items-center justify-center gap-200 rounded-full bg-primary px-500 py-300 text-400 font-bold text-primary-foreground; border: 1px solid var(--game-lip); box-shadow: 0 3px 0 #652920; white-space: nowrap; }
+  .launch-button:hover:not(:disabled) { background: #a7382f; }
+  .launch-button:disabled { opacity: .63; }
+  .flight-strip { @apply mt-400 flex items-center justify-between gap-400 rounded-3xl border border-border bg-card p-300; padding-inline: var(--spacing-400); }
+  .flight-strip > div { @apply flex items-center gap-200; }
+  .flight-strip strong, .flight-strip small { display: block; }
+  .flight-strip small, .tip-card p, .score-state, .audio-error { @apply text-300 text-muted-foreground; }
+  .strip-icon, .tip-mark, .trophy-mark, .result-mark { @apply grid shrink-0 place-items-center rounded-2xl; width: 42px; height: 42px; color: var(--color-accent); background: color-mix(in srgb, var(--color-accent) 9%, transparent); }
+  .strip-icon svg, .tip-mark svg, .trophy-mark svg { @apply icon-size-300; }
+  .strip-keys kbd { @apply grid place-items-center rounded-xl border border-border bg-muted; width: 26px; height: 27px; box-shadow: 0 2px 0 var(--color-border); }
+  .strip-keys svg { @apply icon-size-200; }
+  .strip-keys span { @apply ml-100 text-200 font-semibold text-muted-foreground; white-space: nowrap; letter-spacing: .09em; }
+  .scoreboard { @apply rounded-4xl border border-border bg-card p-500; }
+  .side-heading { @apply mb-400 flex items-center gap-300; }
+  .side-heading p, .best-score small, .score-labels { @apply text-200 font-semibold; letter-spacing: .13em; }
+  .side-heading p, .best-score small { color: var(--color-accent); }
+  .side-heading h2 { @apply font-heading text-hero-700 font-bold; letter-spacing: -.04em; line-height: 1.15; }
+  .best-score { @apply mb-500 flex items-center justify-between rounded-3xl border border-border bg-muted p-400; }
+  .best-score strong { display: block; color: var(--color-accent); font: 700 var(--text-hero-900)/1.14 var(--font-heading); }
+  .best-score > svg { @apply icon-size-600; color: var(--color-accent); opacity: .36; transform: rotate(12deg); }
+  .score-labels { @apply flex justify-between border-b border-border pb-200 text-muted-foreground; }
+  .score-list li { @apply grid items-center gap-200 border-b border-border py-200 text-300; grid-template-columns: 2ch minmax(0, 1fr) auto; }
+  .score-list li > span { @apply text-muted-foreground; }
+  .score-list li:first-child b { color: var(--color-accent); }
+  .score-list strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .score-state { @apply pt-300; }
+  .tip-card { @apply flex items-start gap-300 rounded-3xl border border-border bg-secondary p-400; }
+  .tip-card h2 { @apply mb-100 font-heading text-400 font-bold; }
+  .club-footer { @apply mt-600 flex flex-wrap items-center justify-between gap-200 border-t border-border pt-300; }
+  .club-footer > span:first-child { @apply flex items-center gap-200; }
+  .club-footer svg { color: var(--color-accent); }
+  .audio-error { @apply mt-200; }
+  .flight-status { @apply flex justify-between gap-200; position: absolute; inset: auto var(--spacing-400) var(--spacing-400); color: var(--game-gold); }
+  .flight-status > span:empty { opacity: 0; }
+  .stage-overlay { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; background: #0b2427bd; color: var(--game-ink); }
+  .result-card { @apply grid justify-items-center gap-200 rounded-4xl border border-border px-600 py-400 text-center; position: relative; background: var(--game-glass); width: min(91%, 355px); max-height: 96%; overflow: auto; }
+  .result-card h2 { @apply font-heading text-hero-800 font-bold; letter-spacing: -.05em; }
+  .result-card p { @apply text-300; }
+  .result-card .launch-button { @apply mt-100; }
+  .result-mark svg { @apply icon-size-400; }
+  .record-form { @apply grid w-full gap-200; }
+  .record-form label { @apply text-left text-300 font-semibold; }
+  .record-form input { @apply w-full rounded-xl border border-input bg-muted px-300 py-200 text-foreground; }
+  .record-form input::placeholder { @apply text-muted-foreground; }
+  .text-button { @apply text-300 font-semibold underline underline-offset-4; color: var(--color-accent); }
+  .gold-text { color: var(--game-gold); }
+  .deer-float { animation: deer-float 2.8s ease-in-out infinite alternate; }
+  .confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .confetti i { position: absolute; top: -20px; width: 8px; height: 13px; background: var(--game-gold); border-radius: 2px; animation: confetti-drop 3s ease-in both; }
+  .confetti i:nth-child(3n) { background: var(--game-lip); }
+  .confetti i:nth-child(3n + 1) { background: #9cddc6; }
+}
+
+@keyframes deer-float { from { transform: translateY(3px); } to { transform: translateY(-4px); } }
+@keyframes confetti-drop { from { transform: translateY(-15px) rotate(0); } to { transform: translate(60px, 105vh) rotate(520deg); } }
+
+@media (max-width: 850px) {
+  .game-grid { grid-template-columns: minmax(0, 1fr); }
+  .flight-sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+
+@media (max-width: 520px) {
+  .flight-sidebar { grid-template-columns: minmax(0, 1fr); }
+  .club-brand p { font-size: var(--text-400); }
+  .club-brand span { letter-spacing: .07em; }
+  .sound-button span, .strip-keys span, .stage-tag span { display: none; }
+  .stage-intro { max-width: 58%; }
+  .flight-stage { min-height: 420px; }
+  .flight-strip { flex-wrap: wrap; }
+  .club-footer { letter-spacing: .06em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deer-float, .confetti i { animation: none; }
+  .confetti { background: radial-gradient(ellipse at center, #edc97538, transparent 70%); }
 }

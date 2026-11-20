@@ -5,9 +5,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Root } from './Root';
 import type { AuthConfig, IAuthService } from './services/rayfin-auth.service';
 
-vi.mock('./Welcome.activity', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('./Welcome.activity')>();
-  return { ...actual, useSourceActivity: () => null };
+vi.mock('./lib/rayfin-client', () => {
+  const query = { where: () => query, orderBy: () => query, first: () => query, execute: async () => [] };
+  return { getRayfinClient: async () => ({ data: { FlightRecord: { select: () => query } } }) };
 });
 
 const authenticated: OpaqueSession = {
@@ -48,7 +48,7 @@ describe('protected app content with standalone sign-in', () => {
     );
     render(<Root rayfinAuthService={auth} />);
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
     expect(screen.getByText('Connecting to Fabric…')).toBeVisible();
   });
@@ -59,7 +59,7 @@ describe('protected app content with standalone sign-in', () => {
       await screen.findByRole('button', { name: 'Sign in with Microsoft' })
     ).toBeVisible();
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
     expect(screen.queryByText(/outside Fabric/)).toBeNull();
   });
@@ -70,7 +70,7 @@ describe('protected app content with standalone sign-in', () => {
     render(<Root rayfinAuthService={auth} />);
     expect(
       await screen.findByRole('heading', {
-        name: 'Build the app of your dreams',
+        name: 'High Scores',
       })
     ).toBeVisible();
     expect(auth.signIn).not.toHaveBeenCalled();
@@ -87,7 +87,7 @@ describe('protected app content with standalone sign-in', () => {
       await screen.findByRole('button', { name: 'Sign in with Microsoft' })
     ).toBeVisible();
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
   });
 
@@ -101,13 +101,13 @@ describe('protected app content with standalone sign-in', () => {
       name: 'Try Sign in with Microsoft',
     });
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
     await act(async () => fireEvent.click(button));
     expect(auth.signIn).toHaveBeenCalledTimes(1);
     expect(
       await screen.findByRole('heading', {
-        name: 'Build the app of your dreams',
+        name: 'High Scores',
       })
     ).toBeVisible();
   });
@@ -126,7 +126,7 @@ describe('protected app content with standalone sign-in', () => {
       'Sign-in was cancelled.'
     );
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
   });
 
@@ -142,7 +142,7 @@ describe('protected app content with standalone sign-in', () => {
     render(<Root rayfinAuthService={auth} />);
     expect(
       await screen.findByRole('heading', {
-        name: 'Build the app of your dreams',
+        name: 'High Scores',
       })
     ).toBeVisible();
     await act(async () => notify?.(null));
@@ -150,7 +150,7 @@ describe('protected app content with standalone sign-in', () => {
       await screen.findByRole('button', { name: 'Sign in with Microsoft' })
     ).toBeVisible();
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
     expect(unsubscribe).toHaveBeenCalled();
   });
@@ -162,7 +162,7 @@ describe('protected app content with standalone sign-in', () => {
   ])('fails closed for $kind configuration', async (config) => {
     await act(async () => render(<Root rayfinAuthService={service(config)} />));
     expect(
-      screen.queryByRole('heading', { name: 'Build the app of your dreams' })
+      screen.queryByRole('heading', { name: 'High Scores' })
     ).toBeNull();
     expect(
       screen.queryByRole('button', { name: 'Sign in with Microsoft' })
